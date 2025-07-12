@@ -22,9 +22,26 @@ const defaultTenantArrayField = tenantsArrayField({
     {
       name: 'roles',
       type: 'select',
-      defaultValue: ['tenant-viewer'],
-      hasMany: true,
-      options: ['tenant-admin', 'tenant-viewer'],
+      defaultValue: 'unit-volunteer',
+      hasMany: false,
+      options: [
+        {
+          label: 'Programme Officer',
+          value: 'programme-officer',
+        },
+        {
+          label: 'Unit Head',
+          value: 'unit-head',
+        },
+        {
+          label: 'Unit Secretary',
+          value: 'unit-secretary',
+        },
+        {
+          label: 'Unit Volunteer',
+          value: 'unit-volunteer',
+        },
+      ],
       required: true,
     },
   ],
@@ -46,6 +63,21 @@ export const Users: CollectionConfig = {
   endpoints: [externalUsersLogin],
   fields: [
     {
+      name: 'Name',
+      type: 'text',
+      required: true,
+    },
+    {
+      name: 'position',
+      type: 'text',
+    },
+    {
+      displayPreview: true,
+      name: 'profilePicture',
+      type: 'upload',
+      relationTo: 'media',
+    },
+    {
       admin: {
         position: 'sidebar',
       },
@@ -53,7 +85,16 @@ export const Users: CollectionConfig = {
       type: 'select',
       defaultValue: ['user'],
       hasMany: true,
-      options: ['super-admin', 'user'],
+      options: [
+        {
+          label: 'MAHE Coordinator',
+          value: 'super-admin',
+        },
+        {
+          label: 'User',
+          value: 'user',
+        },
+      ],
       access: {
         update: ({ req }) => {
           return isSuperAdmin(req.user);

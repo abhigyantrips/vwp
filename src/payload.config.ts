@@ -13,6 +13,7 @@ import type { Config } from '@payload-types';
 import { getUserTenantIDs } from '@/utilities/get-user-tenant-ids';
 import { isSuperAdmin } from '@/utilities/is-super-admin';
 
+import { Media } from '@/collections/media';
 import { Tenants } from '@/collections/tenants';
 import { Users } from '@/collections/users';
 
@@ -20,8 +21,14 @@ const filename = fileURLToPath(import.meta.url);
 const dirname = path.dirname(filename);
 
 export default buildConfig({
+  routes: {
+    admin: '/portal',
+  },
   admin: {
     user: 'users',
+    avatar: {
+      Component: '/src/components/portal/profile-picture.tsx',
+    },
     components: {
       graphics: {
         Icon: '/src/graphics/icon/index.tsx#Icon',
@@ -29,7 +36,7 @@ export default buildConfig({
       },
     },
   },
-  collections: [Tenants, Users],
+  collections: [Media, Tenants, Users],
   db: postgresAdapter({
     pool: {
       connectionString: process.env.DATABASE_URI,

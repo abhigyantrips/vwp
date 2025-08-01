@@ -221,7 +221,25 @@ export interface Tenant {
 export interface User {
   id: number;
   Name: string;
+  /**
+   * Brief description about yourself
+   */
+  about?: string | null;
   position?: string | null;
+  /**
+   * Your blood group
+   */
+  bloodGroup?: ('A+' | 'A-' | 'B+' | 'B-' | 'AB+' | 'AB-' | 'O+' | 'O-') | null;
+  /**
+   * Your Manipal email ID (@learner.manipal.edu or @manipal.edu)
+   */
+  manipalLearnerId?: string | null;
+  /**
+   * Current user status in the onboarding process
+   */
+  status?: ('pending_setup' | 'pending_approval' | 'active' | 'rejected') | null;
+  onboardingToken?: string | null;
+  onboardingTokenExpiry?: string | null;
   profilePicture?: (number | null) | Media;
   roles?: ('super-admin' | 'user')[] | null;
   tenants?:
@@ -420,7 +438,13 @@ export interface TenantsSelect<T extends boolean = true> {
  */
 export interface UsersSelect<T extends boolean = true> {
   Name?: T;
+  about?: T;
   position?: T;
+  bloodGroup?: T;
+  manipalLearnerId?: T;
+  status?: T;
+  onboardingToken?: T;
+  onboardingTokenExpiry?: T;
   profilePicture?: T;
   roles?: T;
   tenants?:

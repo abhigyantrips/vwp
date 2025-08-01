@@ -27,12 +27,23 @@ export default buildConfig({
   admin: {
     user: 'users',
     avatar: {
-      Component: '/src/components/portal/profile-picture.tsx',
+      Component: '/src/admin/components/profile-picture.tsx',
     },
     components: {
       graphics: {
         Icon: '/src/graphics/icon/index.tsx#Icon',
         Logo: '/src/graphics/logo/index.tsx#Logo',
+      },
+      views: {
+        CreateUser: {
+          Component: '/src/admin/views/create-user.tsx',
+          path: '/create-user',
+          exact: true,
+          meta: {
+            title: 'Create User',
+            description: 'Create new volunteer accounts',
+          },
+        },
       },
     },
   },

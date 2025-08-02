@@ -68,6 +68,7 @@ export interface Config {
   blocks: {};
   collections: {
     media: Media;
+    pages: Page;
     tenants: Tenant;
     users: User;
     'payload-locked-documents': PayloadLockedDocument;
@@ -77,6 +78,7 @@ export interface Config {
   collectionsJoins: {};
   collectionsSelect: {
     media: MediaSelect<false> | MediaSelect<true>;
+    pages: PagesSelect<false> | PagesSelect<true>;
     tenants: TenantsSelect<false> | TenantsSelect<true>;
     users: UsersSelect<false> | UsersSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
@@ -194,6 +196,125 @@ export interface Media {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "pages".
+ */
+export interface Page {
+  id: number;
+  tenant?: (number | null) | Tenant;
+  title: string;
+  content?:
+    | (
+        | {
+            title: string;
+            description: string;
+            backgroundImage: number | Media;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'cover-hero';
+          }
+        | {
+            title: string;
+            description: string;
+            backgroundImage?: (number | null) | Media;
+            images?:
+              | {
+                  image: number | Media;
+                  caption?: string | null;
+                  id?: string | null;
+                }[]
+              | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'gallery-carousel';
+          }
+        | {
+            officials: {
+              name: string;
+              position: string;
+              photo?: (number | null) | Media;
+              buttons?:
+                | {
+                    label: string;
+                    link: string;
+                    id?: string | null;
+                  }[]
+                | null;
+              id?: string | null;
+            }[];
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'office-bearers';
+          }
+        | {
+            title: string;
+            description: string;
+            backgroundImage?: (number | null) | Media;
+            partners?:
+              | {
+                  title: string;
+                  description: string;
+                  logo: number | Media;
+                  link: string;
+                  id?: string | null;
+                }[]
+              | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'partnerships-carousel';
+          }
+        | {
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'recent-work';
+          }
+        | {
+            position: 'center' | 'left' | 'right';
+            title: string;
+            description: string;
+            image?: (number | null) | Media;
+            imagePosition?: ('left' | 'right') | null;
+            backgroundImage?: (number | null) | Media;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'section';
+          }
+      )[]
+    | null;
+  /**
+   * The URL-friendly page name (e.g., "about-us")
+   */
+  slug: string;
+  /**
+   * Only published pages are visible to the public
+   */
+  status?: ('draft' | 'published') | null;
+  /**
+   * Search engine optimization settings
+   */
+  seo?: {
+    /**
+     * Custom page title for search engines. Defaults to page title if empty.
+     */
+    metaTitle?: string | null;
+    /**
+     * Brief description for search results and social sharing (recommended: 50-160 characters).
+     */
+    metaDescription?: string | null;
+    /**
+     * Image shown when sharing on social media (recommended: 1200×630 pixels).
+     */
+    ogImage?: (number | null) | Media;
+    /**
+     * Prevent search engines from indexing this page
+     */
+    noIndex?: boolean | null;
+  };
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "tenants".
  */
 export interface Tenant {
@@ -277,6 +398,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'media';
         value: number | Media;
+      } | null)
+    | ({
+        relationTo: 'pages';
+        value: number | Page;
       } | null)
     | ({
         relationTo: 'tenants';
@@ -419,6 +544,113 @@ export interface MediaSelect<T extends boolean = true> {
               filename?: T;
             };
       };
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "pages_select".
+ */
+export interface PagesSelect<T extends boolean = true> {
+  tenant?: T;
+  title?: T;
+  content?:
+    | T
+    | {
+        'cover-hero'?:
+          | T
+          | {
+              title?: T;
+              description?: T;
+              backgroundImage?: T;
+              id?: T;
+              blockName?: T;
+            };
+        'gallery-carousel'?:
+          | T
+          | {
+              title?: T;
+              description?: T;
+              backgroundImage?: T;
+              images?:
+                | T
+                | {
+                    image?: T;
+                    caption?: T;
+                    id?: T;
+                  };
+              id?: T;
+              blockName?: T;
+            };
+        'office-bearers'?:
+          | T
+          | {
+              officials?:
+                | T
+                | {
+                    name?: T;
+                    position?: T;
+                    photo?: T;
+                    buttons?:
+                      | T
+                      | {
+                          label?: T;
+                          link?: T;
+                          id?: T;
+                        };
+                    id?: T;
+                  };
+              id?: T;
+              blockName?: T;
+            };
+        'partnerships-carousel'?:
+          | T
+          | {
+              title?: T;
+              description?: T;
+              backgroundImage?: T;
+              partners?:
+                | T
+                | {
+                    title?: T;
+                    description?: T;
+                    logo?: T;
+                    link?: T;
+                    id?: T;
+                  };
+              id?: T;
+              blockName?: T;
+            };
+        'recent-work'?:
+          | T
+          | {
+              id?: T;
+              blockName?: T;
+            };
+        section?:
+          | T
+          | {
+              position?: T;
+              title?: T;
+              description?: T;
+              image?: T;
+              imagePosition?: T;
+              backgroundImage?: T;
+              id?: T;
+              blockName?: T;
+            };
+      };
+  slug?: T;
+  status?: T;
+  seo?:
+    | T
+    | {
+        metaTitle?: T;
+        metaDescription?: T;
+        ogImage?: T;
+        noIndex?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  _status?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

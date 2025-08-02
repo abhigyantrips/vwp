@@ -14,6 +14,7 @@ import { getUserTenantIDs } from '@/utilities/get-user-tenant-ids';
 import { isSuperAdmin } from '@/utilities/is-super-admin';
 
 import { Media } from '@/collections/media';
+import { Pages } from '@/collections/pages';
 import { Tenants } from '@/collections/tenants';
 import { Users } from '@/collections/users';
 
@@ -30,10 +31,6 @@ export default buildConfig({
       Component: '/src/admin/components/profile-picture.tsx',
     },
     components: {
-      graphics: {
-        Icon: '/src/graphics/icon/index.tsx#Icon',
-        Logo: '/src/graphics/logo/index.tsx#Logo',
-      },
       views: {
         CreateUser: {
           Component: '/src/admin/views/create-user.tsx',
@@ -47,7 +44,7 @@ export default buildConfig({
       },
     },
   },
-  collections: [Media, Tenants, Users],
+  collections: [Media, Pages, Tenants, Users],
   db: postgresAdapter({
     pool: {
       connectionString: process.env.DATABASE_URI,
@@ -64,7 +61,9 @@ export default buildConfig({
   },
   plugins: [
     multiTenantPlugin<Config>({
-      collections: {},
+      collections: {
+        pages: {},
+      },
       tenantField: {
         access: {
           read: () => true,

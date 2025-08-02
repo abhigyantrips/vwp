@@ -1,7 +1,7 @@
 export type HeaderConfig = typeof headerConfig;
 
 export const headerConfig = {
-  logo: '/logo.png',
+  logo: '/nss.svg',
   institute: {
     logo: '/institutes/mahe.svg',
     name: 'Manipal Academy of Higher Education',

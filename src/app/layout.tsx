@@ -1,8 +1,9 @@
 import type { Metadata } from 'next';
 import { Geist, Geist_Mono } from 'next/font/google';
 
-import { Footer } from '@/components/footer';
-import { Header } from '@/components/header';
+import { cn } from '@/lib/utils';
+
+import { Toaster } from '@/components/ui/sonner';
 
 import '@/styles/globals.css';
 
@@ -22,21 +23,23 @@ export const metadata: Metadata = {
     'A website for the constituent NSS units of Manipal Academy of Higher Education',
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
+      <head />
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={cn(
+          'bg-sidebar relative flex min-h-screen flex-col font-sans antialiased',
+          geistSans.variable,
+          geistMono.variable
+        )}
       >
-        <div className="flex min-h-screen flex-col">
-          <Header />
-          <main className="flex-1">{children}</main>
-          <Footer />
-        </div>
+        {children}
+        <Toaster />
       </body>
     </html>
   );

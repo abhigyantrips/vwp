@@ -44,7 +44,7 @@ function useCountUp(
 
 // Intersection Observer hook
 function useIntersectionObserver(
-  ref: React.RefObject<Element>,
+  ref: React.RefObject<Element | null>,
   options: IntersectionObserverInit = {}
 ) {
   const [isIntersecting, setIsIntersecting] = useState(false);
@@ -144,7 +144,7 @@ function MissionSection() {
           </p>
 
           <div className="grid gap-8 md:grid-cols-3">
-            <div className="rounded-lg bg-white p-6 shadow-lg">
+            <div className="rounded-lg bg-white p-6 text-start shadow-lg">
               <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-indigo-100">
                 <svg
                   className="h-6 w-6 text-indigo-600"
@@ -169,7 +169,7 @@ function MissionSection() {
               </p>
             </div>
 
-            <div className="rounded-lg bg-white p-6 shadow-lg">
+            <div className="rounded-lg bg-white p-6 text-start shadow-lg">
               <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-indigo-100">
                 <svg
                   className="h-6 w-6 text-indigo-600"
@@ -186,7 +186,7 @@ function MissionSection() {
                 </svg>
               </div>
               <h3 className="mb-3 text-xl font-semibold text-gray-900">
-                Leadership Development
+                Leadership Focus
               </h3>
               <p className="text-gray-600">
                 Sed ut perspiciatis unde omnis iste natus error sit voluptatem
@@ -194,7 +194,7 @@ function MissionSection() {
               </p>
             </div>
 
-            <div className="rounded-lg bg-white p-6 shadow-lg">
+            <div className="rounded-lg bg-white p-6 text-start shadow-lg">
               <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-indigo-100">
                 <svg
                   className="h-6 w-6 text-indigo-600"
